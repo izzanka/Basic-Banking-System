@@ -1,113 +1,69 @@
-let saldo = 0;
-
-let txtTotalSaldo = document.createElement("p");
-let btnTambahSaldo = document.createElement("button");
-let btnKurangSaldo = document.createElement("button");
-
-txtTotalSaldo.innerHTML = `Total saldo: ${saldo}`;
-txtTotalSaldo.id = "txtTotalSaldo";
-document.body.appendChild(txtTotalSaldo);
-
-btnTambahSaldo.innerHTML = "Tambahkan saldo";
-btnTambahSaldo.onclick = () => tambahSaldo();
-document.body.appendChild(btnTambahSaldo);
-
-btnKurangSaldo.innerHTML = "Kurangi saldo";
-btnKurangSaldo.onclick = () => kurangiSaldo();
-document.body.appendChild(btnKurangSaldo);
-
-
-function tambahSaldo()
+export class BankAccount
 {
-	let jumlahSaldoTambah = prompt("Masukkan jumlah saldo yang ingin ditambahkan", "0");
+    constructor(balance = 0)
+    {
+        this.balance = balance;
+    }
 
-	let hasilValidasi = validasiSaldo(jumlahSaldoTambah, "ditambahkan");
+    validation(amount, status)
+    {
+        if(!amount || !status)
+        {
+            return 'The amount cannot null';
+        }
 
-	if(hasilValidasi)
-	{
-		saldo += hasilValidasi;
-		alert(`Penambahan saldo berhasil. Total saldo saat ini: ${saldo}`);
-		updateTextTotalSaldo();
-	}
+        let intAmount = parseInt(amount);
+        
+        if(isNaN(intAmount))
+        {
+            return `The amount you want to ${status} must be a number`;
+        }
+
+        if(intAmount <= 0)
+        {
+            return `The amount you want to ${status} cannot be less than or equal to 0`;
+        }
+
+        if(status == "withdraw")
+        {
+            if(intAmount > this.balance)
+            {
+                return `Withdraw: ${amount} failed, the balance is insufficient`;
+            }
+        }
+
+        return intAmount;
+    }
+
+    deposit(amount)
+    {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                let result = this.validation(amount, "deposit");
+
+                if(isNaN(result)){
+                    reject(result);
+                }
+
+                this.balance += amount;
+                resolve(`Deposit: ${amount} successfull`);
+            });
+        }, 2000);
+    }
+
+    withdraw(amount)
+    {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                let result = this.validation(amount, "withdraw");
+
+                if(isNaN(result)){
+                    reject(result);
+                }
+
+                this.balance -= amount;
+                resolve(`Withdraw: ${amount} successfull`);
+            });
+        }, 2000);
+    }
 }
-
-function kurangiSaldo()
-{
-	let jumlahSaldoKurang = prompt("Masukkan jumlah saldo yang ingin dikurangi", "0");
-
-	let hasilValidasi = validasiSaldo(jumlahSaldoKurang, "dikurangi");
-
-	if(hasilValidasi)
-	{
-		saldo -= hasilValidasi;
-		alert(`Pengurangan saldo berhasil. Total saldo saat ini: ${saldo}`);
-		updateTextTotalSaldo();
-	}
-}
-
-function validasiSaldo(jumlahSaldo, keterangan)
-{	
-	if(!jumlahSaldo || !keterangan)
-	{
-		return;
-	}
-
-	let intJumlahSaldo = parseInt(jumlahSaldo);
-
-	if(isNaN(intJumlahSaldo))
-	{
-		alert(`Jumlah saldo yang ingin ${keterangan} harus berupa angka.`);
-		return;
-	}
-
-	if(intJumlahSaldo <= 0)
-	{
-		alert(`Jumlah saldo yang ingin ${keterangan} tidak boleh kurang dari atau sama dengan 0.`);
-	  	return;
-	}
-
-	if(keterangan == "dikurangi")
-	{
-		if(intJumlahSaldo > saldo)
-		{
-			alert("Saldo tidak mencukupi.");
-			return;
-		}
-	}
-
-	return intJumlahSaldo;
-}
-
-function updateTextTotalSaldo()
-{
-	let txtTotalSaldo = document.getElementById("txtTotalSaldo");
-	txtTotalSaldo.innerHTML = `Total saldo: ${saldo}`;
-}
-
-
-// import { BankAccount } from "./banking_system.js";
-
-// const person = new BankAccount();
-
-// async function transaction()
-// {
-// 	try {
-
-//         console.log(`Saldo: ${person.balance}`);
-//         console.log('--------------------------------');
-
-// 		const personDeposit= await person.deposit(5000);
-// 		console.log(personDeposit);
-
-//         const personWithdraw= await person.withdraw(2000);
-// 		console.log(personWithdraw);
-
-//         console.log('--------------------------------');
-//         console.log(`Saldo: ${person.balance}`);
-
-// 	} catch (error) {
-// 		console.log(error);
-// 	}
-// }
-
-// transaction();
