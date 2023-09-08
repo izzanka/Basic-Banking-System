@@ -1,4 +1,4 @@
-class BankAccount
+export class BankAccount
 {
     constructor(balance = 0)
     {
