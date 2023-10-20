@@ -1,0 +1,692 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Bank - OpenAPI 3.0",
+    "description": "This is a Bank Server based on the OpenAPI 3.0 specification",
+    "version": "1"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:5050"
+    }
+  ],
+  "tags": [
+    {
+      "name": "user"
+    },
+    {
+      "name": "account"
+    },
+    {
+      "name": "transaction"
+    },
+    {
+      "name": "auth"
+    }
+  ],
+  "paths": {
+    "/api/v1/users": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Create a new user to the bank",
+        "description": "Create a new user to the bank",
+        "operationId": "createUser",
+        "requestBody": {
+          "description": "Create a new user in the bank",
+          "content": {
+            "application/json": {
+              "schema":{
+                "type": "object",
+                "properties":{
+                    "name": {
+                      "type": "string",
+                      "example": "name"
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "email@email.com"
+                    },
+                    "password": {
+                      "type": "string",
+                      "example": "password"
+                    },
+                    "identity_type":{
+                      "type": "string",
+                      "example": "IDI"
+                    },
+                    "identity_number":{
+                      "type": "string",
+                      "example": "IDI1"
+                    },
+                    "address": {
+                      "type": "string",
+                      "example": "jalanan"
+                    }
+                  }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Get all users from the bank",
+        "description": "Get all users from the bank",
+        "operationId": "getAllUsers",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties":{
+                    "message":{
+                      "type": "string",
+                      "example": "message"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items":{
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer",
+                            "example": 1
+                          },
+                          "name": {
+                            "type": "string",
+                            "example": "name"
+                          },
+                          "email": {
+                            "type": "string",
+                            "example": "email@email.com"
+                          },
+                          "password": {
+                            "type": "string",
+                            "example": "password"
+                          },
+                          "profile": {
+                            "type": "object",
+                            "properties": {
+                              "id":{
+                                "type":"integer",
+                                "example": 2
+                              },
+                              "identity_type":{
+                                "type": "string",
+                                "example": "IDI"
+                              },
+                              "identity_number":{
+                                "type": "string",
+                                "example": "IDI1"
+                              },
+                              "address": {
+                                "type": "string",
+                                "example": "jalanan"
+                              },
+                              "user_id":{
+                                "type": "integer",
+                                "example": 1
+                              }
+                            }
+                          }
+                        }
+                      }
+                    
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/api/v1/users/{userId}":{
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Get user by user id",
+        "description": "Get user by user id",
+        "operationId": "getUserById",
+        "parameters": [{
+          "name": "userId",
+          "in": "path",
+          "description": "The user id that needs to be fetched",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          }
+        }],
+        "responses":{
+          "200": {
+            "description": "Successful operation",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "type": "object",
+                  "properties":{
+                    "message":{
+                      "type": "string",
+                      "example": "message"
+                    },
+                    "data":{
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "name"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "email@email.com"
+                        },
+                        "password": {
+                          "type": "string",
+                          "example": "password"
+                        },
+                        "profile": {
+                          "type": "object",
+                          "properties": {
+                            "id":{
+                              "type":"integer",
+                              "example": 2
+                            },
+                            "identity_type":{
+                              "type": "string",
+                              "example": "IDI"
+                            },
+                            "identity_number":{
+                              "type": "string",
+                              "example": "IDI1"
+                            },
+                            "address": {
+                              "type": "string",
+                              "example": "jalanan"
+                            },
+                            "user_id":{
+                              "type": "integer",
+                              "example": 1
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400":{
+            "description": "Invalid userId supplied"
+          },
+          "404":{
+            "description": "User not found"
+          },
+          "500":{
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/api/v1/accounts": {
+      "post": {
+        "tags": [
+          "account"
+        ],
+        "summary": "Create a new account to the bank",
+        "description": "Create a new account to the bank",
+        "operationId": "createAccount",
+        "requestBody": {
+          "description": "Create a new account in the bank",
+          "content": {
+            "application/json": {
+              "schema":{
+                "type": "object",
+                "properties":{
+                    "bank_name": {
+                      "type": "string",
+                      "example": "BCA"
+                    },
+                    "bank_account_number": {
+                      "type": "string",
+                      "example": "BCA123"
+                    },
+                    "balance": {
+                      "type": "integer",
+                      "example": 800000
+                    },
+                    "user_id":{
+                      "type": "integer",
+                      "example": 3
+                    }
+                  }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "account"
+        ],
+        "summary": "Get all accounts from the bank",
+        "description": "Get all accounts from the bank",
+        "operationId": "getAllAccount",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties":{
+                    "message":{
+                      "type": "string",
+                      "example": "message"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items":{
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer",
+                            "example": 1
+                          },
+                          "bank_name": {
+                            "type": "string",
+                            "example": "BCA"
+                          },
+                          "bank_account_number": {
+                            "type": "string",
+                            "example": "BCA123"
+                          },
+                          "balance": {
+                            "type": "integer",
+                            "example": 500000
+                          },
+                          "user_id": {
+                            "type": "integer",
+                            "example": 2
+                          }
+                        }
+                      }
+                    
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{accountId}":{
+      "get": {
+        "tags": [
+          "account"
+        ],
+        "summary": "Get account by account id",
+        "description": "Get account by account id",
+        "operationId": "getAccountById",
+        "parameters": [{
+          "name": "accountId",
+          "in": "path",
+          "description": "The account id that needs to be fetched",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          }
+        }],
+        "responses":{
+          "200": {
+            "description": "Successful operation",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "type": "object",
+                  "properties":{
+                      "id":{
+                        "type": "integer",
+                        "example": 1
+                      },
+                      "bank_name": {
+                        "type": "string",
+                        "example": "BCA"
+                      },
+                      "bank_account_number": {
+                        "type": "string",
+                        "example": "BCA123"
+                      },
+                      "balance": {
+                        "type": "integer",
+                        "example": 800000
+                      },
+                      "user_id":{
+                        "type": "integer",
+                        "example": 3
+                      }
+                    }
+                }
+              }
+            }
+          },
+          "400":{
+            "description": "Invalid accountId supplied"
+          },
+          "404":{
+            "description": "Account not found"
+          },
+          "500":{
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/api/v1/transactions": {
+      "post": {
+        "tags": [
+          "transaction"
+        ],
+        "summary": "Create a new transaction",
+        "description": "Create a new transaction",
+        "operationId": "createTransaction",
+        "requestBody": {
+          "description": "Create a new transaction",
+          "content": {
+            "application/json": {
+              "schema":{
+                "type": "object",
+                "properties":{
+                    "source_account_id": {
+                      "type": "integer",
+                      "example": 3
+                    },
+                    "destination_account_id": {
+                      "type": "integer",
+                      "example": 4
+                    },
+                    "amount": {
+                      "type": "integer",
+                      "example": 50000
+                    }
+                  }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "404": {
+            "description": "Source or destination account not found"
+          },
+          "500": {
+            "description": "Server error or source account balance is insufficient"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "transaction"
+        ],
+        "summary": "Get all transactions",
+        "description": "Get all transactions",
+        "operationId": "getAllTransactions",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties":{
+                    "message":{
+                      "type": "string",
+                      "example": "message"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items":{
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer",
+                            "example": 1
+                          },
+                          "source_account_id": {
+                            "type": "integer",
+                            "example": 3
+                          },
+                          "destination_account_id": {
+                            "type": "integer",
+                            "example": 4
+                          },
+                          "amount": {
+                            "type": "integer",
+                            "example": 50000
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/api/v1/transactions/{transactionId}":{
+      "get": {
+        "tags": [
+          "transaction"
+        ],
+        "summary": "Get transaction id",
+        "description": "Get transaction id",
+        "operationId": "getTransactionById",
+        "parameters": [{
+          "name": "transactionId",
+          "in": "path",
+          "description": "The transaction id that needs to be fetched",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          }
+        }],
+        "responses":{
+          "200": {
+            "description": "Successful operation",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "type": "object",
+                  "properties":{
+                    "message":{
+                      "type": "string",
+                      "example": "message"
+                    },
+                    "data":{
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "source_account_id": {
+                          "type": "integer",
+                          "example": 2
+                        },
+                        "destination_account_id": {
+                          "type": "integer",
+                          "example": 4
+                        },
+                        "amount": {
+                          "type": "integer",
+                          "example": 60000
+                        },
+                        "source_account": {
+                          "type": "object",
+                          "properties": {
+                            "id":{
+                              "type": "integer",
+                              "example": 1
+                            },
+                            "bank_name": {
+                              "type": "string",
+                              "example": "BCA"
+                            },
+                            "bank_account_number": {
+                              "type": "string",
+                              "example": "BCA123"
+                            },
+                            "balance": {
+                              "type": "integer",
+                              "example": 800000
+                            },
+                            "user_id":{
+                              "type": "integer",
+                              "example": 3
+                            }
+                          }
+                        },
+                        "destination_account": {
+                          "type": "object",
+                          "properties": {
+                            "id":{
+                              "type": "integer",
+                              "example": 3
+                            },
+                            "bank_name": {
+                              "type": "string",
+                              "example": "BCA"
+                            },
+                            "bank_account_number": {
+                              "type": "string",
+                              "example": "BCA123"
+                            },
+                            "balance": {
+                              "type": "integer",
+                              "example": 800000
+                            },
+                            "user_id":{
+                              "type": "integer",
+                              "example": 8
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400":{
+            "description": "Invalid transactionId supplied"
+          },
+          "404":{
+            "description": "Source or destination account not found"
+          },
+          "500":{
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/api/v1/auth/login":{
+      "post":{
+        "tags": [
+          "auth"
+        ],
+        "summary": "Login with an account",
+        "description": "Login with an account",
+        "operationId": "login",
+        "requestBody": {
+          "description": "Login with an account",
+          "content": {
+            "application/json": {
+              "schema":{
+                "type": "object",
+                "properties":{
+                    "email": {
+                      "type": "string",
+                      "example": "email@email.com"
+                    },
+                    "password": {
+                      "type": "string",
+                      "example": "password"
+                    }
+                  }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/api/v1/auth/register": {},
+    "/api/v1/auth/authenticate": {}
+  }
+
+}
