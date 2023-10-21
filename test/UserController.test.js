@@ -88,7 +88,7 @@ test('test getUserById function success', async() => {
 //     expect(response.body.message).toEqual('create user with profile success')
 // })
 
-test('test POST /api/v1/auth/login', async() => {
+test('test POST /api/v1/auth/login success', async() => {
     const response = await request(app).post('/api/v1/auth/login')
         .send({
             email: "izzan4@gmail.com",
@@ -102,7 +102,7 @@ test('test POST /api/v1/auth/login', async() => {
     expect(response.body.message).toEqual('login success')
 })
 
-test('test GET /api/v1/users', async() => {
+test('test GET /api/v1/users success', async() => {
     const response = await request(app).get('/api/v1/users')
     expect(response.statusCode).toBe(200)
     expect(response.body).toHaveProperty('message')
@@ -110,7 +110,7 @@ test('test GET /api/v1/users', async() => {
     expect(response.body.message).toEqual('get all users success')  
 })
 
-test('test GET /api/v1/users/{userId}', async() => {
+test('test GET /api/v1/users/{userId} success', async() => {
     const response = await request(app).get('/api/v1/users/3')
     expect(response.statusCode).toBe(200)
     expect(response.body).toHaveProperty('message')
