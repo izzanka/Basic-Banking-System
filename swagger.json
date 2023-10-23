@@ -685,8 +685,91 @@
         }
       }
     },
-    "/api/v1/auth/register": {},
-    "/api/v1/auth/authenticate": {}
+    "/api/v1/auth/register": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Register a new user to the bank",
+        "description": "Register a new user to the bank",
+        "operationId": "registerUser",
+        "requestBody": {
+          "description": "Register a new user in the bank",
+          "content": {
+            "application/json": {
+              "schema":{
+                "type": "object",
+                "properties":{
+                    "name": {
+                      "type": "string",
+                      "example": "name"
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "email@email.com"
+                    },
+                    "password": {
+                      "type": "string",
+                      "example": "password"
+                    },
+                    "identity_type":{
+                      "type": "string",
+                      "example": "IDI"
+                    },
+                    "identity_number":{
+                      "type": "string",
+                      "example": "IDI1"
+                    },
+                    "address": {
+                      "type": "string",
+                      "example": "jalanan"
+                    }
+                  }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/api/v1/auth/authenticate": {
+      "get": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Authenticate current logged user",
+        "description": "Authenticate current logged user",
+        "operationId": "authenticateUser",
+        "parameters": [{
+          "in": "header",
+          "name": "Authorization",
+          "schema": {
+            "type": "string",
+            "example": "baerer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNjk3NjczNzUzLCJleHAiOjE2OTc2OTUzNTN9.n1I6aZpQIf9Y88qRl5DzWi6499oG98YKA_0QoWagN6c"
+          },
+          "required": true
+        }],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    }
   }
 
 }

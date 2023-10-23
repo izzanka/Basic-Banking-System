@@ -13,6 +13,8 @@ app.use(express.json({strict: false}))
 app.use('/api/v1', router)
 app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerJSON))
 
-app.listen(PORT, () => {
-    console.log(`Server is running at PORT ${PORT}`)
-})
+// app.listen(PORT, () => {
+//     console.log(`Server is running at PORT ${PORT}`)
+// })
+
+module.exports = app
